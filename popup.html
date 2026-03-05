@@ -5,7 +5,7 @@
   <title>AdLoot</title>
   <style>
     body {
-      width: 320px;
+      width: 300px;
       padding: 20px;
       font-family: 'Courier New', monospace;
       background: #1a1a1a;
@@ -31,7 +31,6 @@
     .stat-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin: 8px 0;
       font-size: 14px;
     }
@@ -45,220 +44,6 @@
       font-weight: bold;
     }
 
-    /* Toggle Switch */
-    .toggle-switch {
-      position: relative;
-      width: 48px;
-      height: 24px;
-      cursor: pointer;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #555;
-      border: 2px solid #666;
-      border-radius: 12px;
-      transition: all 0.3s;
-    }
-
-    .toggle-slider::before {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      left: 2px;
-      top: 2px;
-      background: #999;
-      border-radius: 50%;
-      transition: all 0.3s;
-    }
-
-    .toggle-switch input:checked + .toggle-slider {
-      background: #2a5a2a;
-      border-color: #00ff00;
-    }
-
-    .toggle-switch input:checked + .toggle-slider::before {
-      transform: translateX(24px);
-      background: #00ff00;
-      box-shadow: 0 0 8px #00ff00;
-    }
-
-    /* Buttons */
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-    }
-
-    .action-btn {
-      flex: 1;
-      background: #FFD700;
-      color: #000;
-      border: 2px solid #000;
-      padding: 10px 8px;
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-
-    .action-btn:hover {
-      background: #FFF;
-      transform: scale(1.03);
-    }
-
-    .action-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Shop View */
-    .shop-view {
-      display: none;
-    }
-
-    .shop-view.active {
-      display: block;
-    }
-
-    .main-view.hidden {
-      display: none;
-    }
-
-    .shop-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .shop-header h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .shop-loot {
-      font-size: 14px;
-      color: #FFD700;
-    }
-
-    .back-btn {
-      background: #666;
-      color: #FFF;
-      border: 2px solid #888;
-      padding: 6px 12px;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .back-btn:hover {
-      background: #888;
-    }
-
-    .shop-section {
-      margin-bottom: 12px;
-    }
-
-    .shop-section h3 {
-      font-size: 13px;
-      margin: 0 0 8px 0;
-      color: #CCC;
-      border-bottom: 1px solid #444;
-      padding-bottom: 4px;
-    }
-
-    .shop-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px;
-      margin-bottom: 4px;
-      background: #2a2a2a;
-      border: 2px solid #444;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .shop-item:hover:not(.locked):not(.equipped) {
-      border-color: #FFD700;
-      transform: translateX(3px);
-    }
-
-    .shop-item.equipped {
-      border-color: #00ff00;
-      background: #1a3a1a;
-      cursor: default;
-    }
-
-    .shop-item.locked {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .shop-item-sprite {
-      font-size: 22px;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .shop-item-info {
-      flex: 1;
-    }
-
-    .shop-item-name {
-      font-size: 12px;
-      color: #FFF;
-    }
-
-    .shop-item-stats {
-      font-size: 10px;
-      color: #00ff00;
-    }
-
-    .shop-item-price {
-      font-size: 12px;
-      color: #FFD700;
-      font-weight: bold;
-      min-width: 50px;
-      text-align: right;
-    }
-
-    .shop-item-price.free {
-      color: #00ff00;
-    }
-
-    .shop-item-badge {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-weight: bold;
-    }
-
-    .badge-equipped {
-      background: #00ff00;
-      color: #000;
-    }
-
-    .badge-locked {
-      background: #ff4444;
-      color: #FFF;
-    }
-
-    /* Info & Controls */
     .info {
       font-size: 12px;
       color: #999;
@@ -284,84 +69,49 @@
       color: #666;
       margin-top: 15px;
     }
+
+    .emoji {
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-
-  <!-- Main View -->
-  <div class="main-view" id="main-view">
-    <h1>AdLoot POC</h1>
-
-    <div class="stats">
-      <div class="stat-row">
-        <span class="stat-label">Enabled:</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggle-enabled" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">HP:</span>
-        <span class="stat-value" id="hp-value">-</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Ads Detected:</span>
-        <span class="stat-value" id="ads-count">-</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Total Loot:</span>
-        <span class="stat-value" id="total-loot">-</span>
-      </div>
+  <h1>🎮 AdLoot POC</h1>
+  
+  <div class="stats">
+    <div class="stat-row">
+      <span class="stat-label">Status:</span>
+      <span class="stat-value" id="status">ACTIVE</span>
     </div>
-
-    <div class="action-buttons">
-      <button class="action-btn" id="shop-btn">SHOP</button>
+    <div class="stat-row">
+      <span class="stat-label">Ads Detected:</span>
+      <span class="stat-value" id="ads-count">-</span>
     </div>
-
-    <div class="info">
-      <p><strong>How to play:</strong></p>
-      <ul style="margin: 5px 0; padding-left: 20px;">
-        <li>Click on highlighted ads to loot them</li>
-        <li>Your character walks to the ad</li>
-        <li>Complete the minigame</li>
-        <li>Success = loot, Failure = damage</li>
-      </ul>
-    </div>
-
-    <div class="controls">
-      <strong>Controls:</strong><br>
-      Click ads to target | F key: Follow mouse (WIP)
-    </div>
-
-    <div class="footer">
-      v0.1.0 - Proof of Concept<br>
-      Roguelike Ad Extraction
+    <div class="stat-row">
+      <span class="stat-label">Total Loot:</span>
+      <span class="stat-value" id="total-loot">-</span>
     </div>
   </div>
 
-  <!-- Shop View -->
-  <div class="shop-view" id="shop-view">
-    <div class="shop-header">
-      <h2>SHOP</h2>
-      <span class="shop-loot" id="shop-loot">0</span>
-    </div>
+  <div class="info">
+    <p><span class="emoji">🎯</span> <strong>How to play:</strong></p>
+    <ul style="margin: 5px 0; padding-left: 20px;">
+      <li>Click on highlighted ads to loot them</li>
+      <li>Your character walks to the ad</li>
+      <li>Complete the lockpicking minigame</li>
+      <li>Success = loot, Failure = damage</li>
+    </ul>
+  </div>
 
-    <div class="shop-section">
-      <h3>Weapons</h3>
-      <div id="shop-weapons"></div>
-    </div>
+  <div class="controls">
+    <strong>Controls:</strong><br>
+    • Click ads to target<br>
+    • F key: Follow mouse (WIP)<br>
+  </div>
 
-    <div class="shop-section">
-      <h3>Tools</h3>
-      <div id="shop-tools"></div>
-    </div>
-
-    <div class="shop-section">
-      <h3>Armor</h3>
-      <div id="shop-armor"></div>
-    </div>
-
-    <button class="back-btn" id="shop-back">BACK</button>
+  <div class="footer">
+    v0.1.0 - Proof of Concept<br>
+    Roguelike Ad Extraction
   </div>
 
   <script src="popup.js"></script>

@@ -11,7 +11,6 @@ class AdLoot {
     this.isMoving = false;
     this.currentAd = null;
     this.minigameActive = false;
-    this.enabled = true;
     
     // Equipment system
     this.equipment = {
@@ -48,124 +47,12 @@ class AdLoot {
   }
 
   init() {
-    this.setupMessageListener();
-    // Check stored enabled state before initializing
-    chrome.storage.local.get(['adlootEnabled'], (result) => {
-      this.enabled = result.adlootEnabled !== false; // default true
-      if (this.enabled) {
-        this.startGame();
-      }
-    });
-  }
-
-  startGame() {
     this.createCharacter();
     this.detectAds();
     this.setupEventListeners();
     this.startGameLoop();
     this.showWelcomeMessage();
     this.initAudio();
-  }
-
-  setEnabled(enabled) {
-    this.enabled = enabled;
-    chrome.storage.local.set({ adlootEnabled: enabled });
-
-    if (!enabled) {
-      // Hide character and HUD
-      if (this.character) this.character.style.display = 'none';
-      const hud = document.getElementById('adloot-hud');
-      if (hud) hud.style.display = 'none';
-      // Remove ad overlays
-      document.querySelectorAll('.adloot-ad-overlay').forEach(el => el.style.display = 'none');
-      // Close any open minigame/welcome/death/loadout screens
-      ['adloot-minigame', 'adloot-welcome', 'adloot-death', 'adloot-loadout'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.remove();
-      });
-      this.isMoving = false;
-      this.minigameActive = false;
-    } else {
-      // Show character and HUD, or create if first time
-      if (this.character) {
-        this.character.style.display = '';
-      } else {
-        this.startGame();
-        return;
-      }
-      const hud = document.getElementById('adloot-hud');
-      if (hud) hud.style.display = '';
-      document.querySelectorAll('.adloot-ad-overlay').forEach(el => el.style.display = '');
-    }
-  }
-
-  setupMessageListener() {
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      switch (message.action) {
-        case 'getStats':
-          sendResponse({
-            ads: this.ads.length,
-            loot: this.loot,
-            health: this.health,
-            maxHealth: this.maxHealth,
-            enabled: this.enabled,
-            equipment: {
-              weapon: this.equipment.weapon,
-              tool: this.equipment.tool,
-              armor: this.equipment.armor
-            }
-          });
-          break;
-
-        case 'toggleEnabled':
-          this.setEnabled(message.enabled);
-          sendResponse({ enabled: this.enabled });
-          break;
-
-        case 'getShopData':
-          sendResponse({
-            loot: this.loot,
-            equipment: this.availableEquipment,
-            equipped: {
-              weapon: this.equipment.weapon?.id,
-              tool: this.equipment.tool?.id,
-              armor: this.equipment.armor?.id
-            }
-          });
-          break;
-
-        case 'buyItem': {
-          const { type, itemId } = message;
-          const items = this.availableEquipment[type];
-          const item = items?.find(i => i.id === itemId);
-          const equipSlot = type.slice(0, -1);
-
-          if (!item) {
-            sendResponse({ success: false, error: 'Item not found' });
-          } else if (this.equipment[equipSlot]?.id === itemId) {
-            sendResponse({ success: false, error: 'Already equipped' });
-          } else if (this.loot < item.cost) {
-            sendResponse({ success: false, error: 'Not enough loot' });
-          } else {
-            this.loot -= item.cost;
-            this.equipment[equipSlot] = item;
-            this.updateEquipmentVisuals();
-            this.updateHUD();
-            sendResponse({
-              success: true,
-              loot: this.loot,
-              equipped: {
-                weapon: this.equipment.weapon?.id,
-                tool: this.equipment.tool?.id,
-                armor: this.equipment.armor?.id
-              }
-            });
-          }
-          break;
-        }
-      }
-      return true; // Keep message channel open for async response
-    });
   }
 
   initAudio() {
@@ -491,7 +378,7 @@ class AdLoot {
   }
 
   targetAd(adElement) {
-    if (!this.enabled || this.minigameActive) return;
+    if (this.minigameActive) return;
 
     const rect = adElement.getBoundingClientRect();
     // Store absolute position (independent of scroll)
