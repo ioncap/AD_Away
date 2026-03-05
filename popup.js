@@ -77,7 +77,8 @@ function loadShop() {
 function renderShopSection(containerId, items, type, shopData) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
-  const equipSlot = type.slice(0, -1);
+  const typeToSlot = { weapons: 'weapon', tools: 'tool', armor: 'armor' };
+  const equipSlot = typeToSlot[type];
   const equippedId = shopData.equipped[equipSlot];
 
   items.forEach(item => {

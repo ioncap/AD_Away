@@ -138,7 +138,8 @@ class AdLoot {
           const { type, itemId } = message;
           const items = this.availableEquipment[type];
           const item = items?.find(i => i.id === itemId);
-          const equipSlot = type.slice(0, -1);
+          const typeToSlot = { weapons: 'weapon', tools: 'tool', armor: 'armor' };
+          const equipSlot = typeToSlot[type];
 
           if (!item) {
             sendResponse({ success: false, error: 'Item not found' });
