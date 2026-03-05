@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AdLoot</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      background: #1a1a1a;
+      color: #FFD700;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 15px 0;
+      text-align: center;
+      border-bottom: 2px solid #FFD700;
+      padding-bottom: 10px;
+    }
+
+    .stats {
+      background: #2a2a2a;
+      padding: 15px;
+      border: 2px solid #FFD700;
+      margin-bottom: 15px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .stat-label {
+      color: #CCC;
+    }
+
+    .stat-value {
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .info {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .controls {
+      background: #2a2a2a;
+      padding: 10px;
+      border: 2px solid #666;
+      font-size: 12px;
+      color: #CCC;
+    }
+
+    .controls strong {
+      color: #FFD700;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #666;
+      margin-top: 15px;
+    }
+
+    .emoji {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 AdLoot POC</h1>
+  
+  <div class="stats">
+    <div class="stat-row">
+      <span class="stat-label">Status:</span>
+      <span class="stat-value" id="status">ACTIVE</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Ads Detected:</span>
+      <span class="stat-value" id="ads-count">-</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Total Loot:</span>
+      <span class="stat-value" id="total-loot">-</span>
+    </div>
+  </div>
+
+  <div class="info">
+    <p><span class="emoji">🎯</span> <strong>How to play:</strong></p>
+    <ul style="margin: 5px 0; padding-left: 20px;">
+      <li>Click on highlighted ads to loot them</li>
+      <li>Your character walks to the ad</li>
+      <li>Complete the lockpicking minigame</li>
+      <li>Success = loot, Failure = damage</li>
+    </ul>
+  </div>
+
+  <div class="controls">
+    <strong>Controls:</strong><br>
+    • Click ads to target<br>
+    • F key: Follow mouse (WIP)<br>
+  </div>
+
+  <div class="footer">
+    v0.1.0 - Proof of Concept<br>
+    Roguelike Ad Extraction
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
