@@ -122,6 +122,7 @@ This POC validates the core concept. For the full game:
 - Character can clip through page elements
 - No persistence yet (refresh = reset)
 - Popup stats not connected yet
+- Plugin will impact browser performance
 
 ## 🤝 Contributing
 
